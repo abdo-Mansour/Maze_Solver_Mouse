@@ -65,110 +65,142 @@ class Grid:
 			print(row)
 
 
-def init_maze(maze_map,cell_size):
-    BORDERS = 100
-    WIDTH = BORDERS + cell_size * COLUMNS
-    HEIGHT = BORDERS + cell_size * ROWS
-    setup(WIDTH, HEIGHT) #size and position on screen
 
-    maze = Turtle()
-    maze.hideturtle()
-    tracer(False)
-    maze.color('black')
-    maze.width(1)
-    
-    grid = Turtle()
-    grid.hideturtle()
-    grid.color('black')
-    grid.width(1)
 
-    text = Turtle()
-    text.hideturtle()
-    text.width(1)
+class MazeView:
+    def __init__(self,cell_size = 60) -> None:
+        self.BORDERS = 100
+        self.cell_size = cell_size
+        self.WIDTH = self.BORDERS + cell_size * COLUMNS
+        self.HEIGHT = self.BORDERS + cell_size * ROWS
+        self.start_y , self.start_x = -(self.HEIGHT-self.BORDERS) // 2 , -(self.WIDTH-self.BORDERS) // 2 
+        self.end_y   , self.end_x   = (self.HEIGHT-self.BORDERS) // 2 , (self.WIDTH-self.BORDERS) // 2 
+        
+    def init_maze(self,maze_map):
+        
+        setup(self.WIDTH, self.HEIGHT) #size and position on screen
 
-    #draw grid
-    start_y , start_x = -(HEIGHT-BORDERS) // 2 , -(WIDTH-BORDERS) // 2 
-    end_y   , end_x   = (HEIGHT-BORDERS) // 2 , (WIDTH-BORDERS) // 2 
-    for y in range(start_y, end_y, cell_size):
-        for x in range(start_x, end_x, cell_size):
-            line(x, y + cell_size, x + cell_size, y + cell_size, grid)
-            line(x + cell_size, y, x + cell_size, y + cell_size, grid)
-            line(x, y, x + cell_size, y, grid)
-            line(x, y, x, y + cell_size, grid)
+        maze = Turtle()
+        maze.hideturtle()
+        tracer(False)
+        maze.color('black')
+        maze.width(1)
+        
+        grid = Turtle()
+        grid.hideturtle()
+        grid.color('black')
+        grid.width(1)
 
-    maze.width(5)
-    #draw walls
-    i = 0
-    j = 0
-    for y in range(start_y, end_y, cell_size):
+        text = Turtle()
+        text.hideturtle()
+        text.width(1)
+
+        #draw grid
+        
+        for y in range(self.start_y, self.end_y, self.cell_size):
+            for x in range(self.start_x, self.end_x, self.cell_size):
+                self.line(x, y + self.cell_size, x + self.cell_size, y + self.cell_size, grid)
+                self.line(x + self.cell_size, y, x + self.cell_size, y + self.cell_size, grid)
+                self.line(x, y, x + self.cell_size, y, grid)
+                self.line(x, y, x, y + self.cell_size, grid)
+
+        maze.width(5)
+
+        #draw walls
         i = 0
-        for x in range(start_x, end_x, cell_size):
-            draw_wall(maze_map.grid[j][i], x, y, cell_size, maze)
-            
-            i += 1
-        j+=1
+        j = 0
+        for y in range(self.start_y, self.end_y, self.cell_size):
+            i = 0
+            for x in range(self.start_x, self.end_x, self.cell_size):
+                self.draw_wall(maze_map.grid[j][i], x, y, maze)
+                i+=1
+            j+=1
 
-    return text, maze
+        return text, maze
 
-def line(start_x, start_y, end_x, end_y, t):
-    t.up()
-    t.goto(start_x, start_y)
-    t.down()
-    t.goto(end_x, end_y) 
-    t.up()
-    t.goto(start_x, start_y)
-    t.down()
-    t.goto(end_x, end_y) 
+    def line(self,start_x, start_y, end_x, end_y, t):
+        t.up()
+        t.goto(start_x, start_y)
+        t.down()
+        t.goto(end_x, end_y) 
+        t.up()
+        t.goto(start_x, start_y)
+        t.down()
+        t.goto(end_x, end_y) 
+        
+
+
+    def draw_wall(self,cell, x, y, t):
+        if not cell.visited:
+            return
+        
+        if cell.up_wall:
+            self.draw_top(x, y, t)
+        if cell.down_wall:
+            self.draw_bottom(x, y, t)
+        if cell.right_wall:
+            self.draw_right(x, y, t)
+        if cell.left_wall:
+            self.draw_left(x, y, t)
+
+    def draw_top(self,x, y, t):
+        self.line(x, y + self.cell_size, x + self.cell_size, y + self.cell_size, t) # up horizontal line (top)
+
+    def draw_bottom(self,x, y, t):
+        self.line(x, y, x + self.cell_size, y, t) # down horizontal line (down)
+        
+    def draw_right(self,x, y, t):
+        self.line(x + self.cell_size, y, x + self.cell_size, y + self.cell_size, t) # right vertical line (right)
+
+    def draw_left(self,x, y, t):
+        self.line(x, y, x, y + self.cell_size, t) # left vertical Line (left)
+
+
+
+    def update_maze_explored(self,visited_cell,maze_map,t):
+        visited_cell = (6-visited_cell[0],visited_cell[1])
+        self.draw_point(visited_cell,t)
     
+        x = (visited_cell[1] + 1) * self.cell_size + self.start_x - self.cell_size
+        y = (visited_cell[0] + 1) * self.cell_size + self.start_y - self.cell_size
 
+        self.draw_wall(maze_map.grid[visited_cell[0]][visited_cell[1]],x, y, t)
 
-def draw_wall(cell, x, y, size, t):
-    if not cell.visited:
-        return
+    # initlize a sudo map
+
+    def draw_point(self,visited_cell,t):
+        
+        CIRCLE_SIZE = 6
+        y = (visited_cell[0] + 1) * self.cell_size + self.start_y - CIRCLE_SIZE - self.cell_size//2
+        x = (visited_cell[1] + 1) * self.cell_size + self.start_x - self.cell_size//2
+
+        t.penup()
+        t.goto(x, y) #last position
+        t.pendown()
+        t.fillcolor("black")
+        t.begin_fill()
+        t.circle(CIRCLE_SIZE)
+        t.end_fill()
+        t.penup()
+
     
-    if cell.up_wall:
-        draw_top(x, y, size, t)
-    if cell.down_wall:
-        draw_bottom(x, y, size, t)
-    if cell.right_wall:
-        draw_right(x, y, size, t)
-    if cell.left_wall:
-        draw_left(x, y, size, t)
-
-def draw_top(x, y, size, t):
-    line(x, y + size, x + size, y + size, t) # up horizontal line (top)
-
-def draw_bottom(x, y, size, t):
-    line(x, y, x + size, y, t) # down horizontal line (down)
-    
-def draw_right(x, y, size, t):
-    line(x + size, y, x + size, y + size, t) # right vertical line (right)
-
-def draw_left(x, y, size, t):
-    line(x, y, x, y + size, t) # left vertical Line (left)
-
-
-
-def update_maze_explored(visited_cell,cell_size,maze_map,t):
-    pass
-
-# initlize a sudo map
-
-def draw_point(visited_cell,t):
-    pass
-
 def init_map():
+     
     maze_map = Grid(ROWS, COLUMNS)
-    for i in range(ROWS):
-        for j in range(COLUMNS):
-            cell = Cell(False, True, False, False)
-            cell.visited = True
-            maze_map.add_cell(i, j, cell)
+    # Initialize the grid with cells
+    for row in range(ROWS):
+        for col in range(COLUMNS):
+            maze_map.add_cell(row, col, Cell(True, True, True, True))
     return maze_map
 
+
 def main():
+    maze_view = MazeView()
     maze_map = init_map()
-    text, maze = init_maze(maze_map, 60)
+    text, maze = maze_view.init_maze(maze_map)
+    
+
+    
     done()
 
 main()
