@@ -2,6 +2,11 @@ from controller import Robot
 from constants import *
 from math import pi
 
+class Oriantation:
+    UP = 0
+    RIGHT = 1
+    DOWN = 2
+    LEFT = 3
 def move_1_tile(robot, devices):
     
     revolutions = TILE_LENGTH / WHEEL #rev in radians
