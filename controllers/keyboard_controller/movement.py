@@ -125,25 +125,23 @@ def turn(robot, move_direction, devices):
     devices.left_motor.setVelocity(SPEED * 0.33)
     devices.right_motor.setVelocity(SPEED * 0.33)
 
-    match move_direction:
-        case 'right':
-            left_wheel_revolutions += revolutions
-            right_wheel_revolutions -= revolutions
-            devices.left_motor.setPosition(left_wheel_revolutions)
-            devices.right_motor.setPosition(right_wheel_revolutions)
+    if(move_direction == 'right'):
+        left_wheel_revolutions += revolutions
+        right_wheel_revolutions -= revolutions
+        devices.left_motor.setPosition(left_wheel_revolutions)
+        devices.right_motor.setPosition(right_wheel_revolutions)
+    elif(move_direction == 'left'):
+        left_wheel_revolutions -= revolutions
+        right_wheel_revolutions += revolutions
+        devices.left_motor.setPosition(left_wheel_revolutions)
+        devices.right_motor.setPosition(right_wheel_revolutions)
+    elif(move_direction == 'back'):
+        revolutions *= 2
+        left_wheel_revolutions += revolutions
+        right_wheel_revolutions -= revolutions
+        devices.left_motor.setPosition(left_wheel_revolutions)
+        devices.right_motor.setPosition(right_wheel_revolutions)
 
-        case 'left':
-            left_wheel_revolutions -= revolutions
-            right_wheel_revolutions += revolutions
-            devices.left_motor.setPosition(left_wheel_revolutions)
-            devices.right_motor.setPosition(right_wheel_revolutions)
-
-        case 'back':
-            revolutions *= 2
-            left_wheel_revolutions += revolutions
-            right_wheel_revolutions -= revolutions
-            devices.left_motor.setPosition(left_wheel_revolutions)
-            devices.right_motor.setPosition(right_wheel_revolutions)
 
     while True:
         distance_left_now = devices.ps_left.getValue()

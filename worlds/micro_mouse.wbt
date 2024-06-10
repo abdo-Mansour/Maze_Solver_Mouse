@@ -9,7 +9,7 @@ WorldInfo {
 }
 Viewpoint {
   orientation -0.5773502691896257 0.5773502691896257 0.5773502691896257 2.0943245915045035
-  position 0.0003245325015910155 2.2876958113161172e-05 3.5641759682045193
+  position 0.00039762792956816355 9.596941047413373e-05 4.333544905048392
 }
 TexturedBackground {
 }
@@ -36,7 +36,8 @@ RectangleArena {
   }
 }
 E-puck {
-  translation -0.44 0.69 0
+  translation -0.31 0.56 0
+  controller "keyboard_controller"
 }
 Solid {
   translation -1.228 0.125 0.05

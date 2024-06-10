@@ -46,11 +46,12 @@ def main():
         key = keyboard.get_key()
         if key in moves:
             print("hello")
-            match key:
-                case 'W':
-                    print(key)
-                    movement.move_1_tile(robot, devices)
-                case 'A' | 'S' | 'D':
-                    print(key)
-                    movement.turn(robot, moves[key], devices)
+
+            if(key == 'W'):
+                print(key)
+                movement.move_1_tile(robot, devices)
+            elif(key == 'A' or key == 'S' or key == 'D'):
+                print(key)
+                movement.turn(robot, moves[key], devices)
+            
 main()
