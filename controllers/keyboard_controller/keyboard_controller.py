@@ -48,7 +48,6 @@ class Devices:
 
 def main():
     from dfs import Explorer
-    print('hello')
     dfs = Explorer(robot)
     dfs.main()
 main()

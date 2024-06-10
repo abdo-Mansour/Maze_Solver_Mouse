@@ -51,6 +51,7 @@ class Cell:
 		self.right_wall = right_wall
 		self.down_wall = down_wall
 		self.left_wall = left_wall
+		self.walls = [right_wall, down_wall, left_wall, up_wall]
 		self.visited = False
 
 class Grid:
@@ -78,7 +79,7 @@ class Grid:
 			self.grid[row][col] = cell
 		else:
 			raise IndexError("Cell position out of grid bounds")
-	def get_cell(self, row, col):
+	def get_cell(self, row, col) -> Cell:
 		"""
 		Retrieve the Cell object from the grid at the specified row and column.
 		
@@ -93,7 +94,7 @@ class Grid:
 			return self.grid[row][col]
 		else:
 			# Raise an error if the position is out of bounds
-			raise IndexError("Cell position out of grid bounds")
+			raise IndexError("Cell position out of grid bounds, " + str((row, col)))
 
 	def display_grid(self):
 		"""
@@ -153,25 +154,48 @@ class Explorer:
 		self.grid.add_cell(*self.position, cell)
 	def move_forward(self):
 		move_1_tile(self.robot, self.devices)
-		if self.oriantation == 0:
-			self.position = (self.position[0], self.position[1] + 1)
-		if self.oriantation == 1:
-			self.position = (self.position[0] + 1, self.position[1])
-		if self.oriantation == 2:
-			self.position = (self.position[0], self.position[1] - 1)
-		if self.oriantation == 3:
-			self.position = (self.position[0] - 1, self.position[1])
+		self.position = self.calc_new_pos(self.position, self.oriantation)
+
+	def calc_new_pos(self, pos, oriantation):
+		if oriantation == 0:
+			pos = (pos[0], self.position[1] + 1)
+		if oriantation == 1:
+			pos = (pos[0] + 1, pos[1])
+		if oriantation == 2:
+			pos = (pos[0], pos[1] - 1)
+		if oriantation == 3:
+			pos = (pos[0] - 1, pos[1])
+		return pos
 	def turn(self, dir):
 		turn(self.robot, dir, self.devices)
 		if dir == 'left': self.oriantation = (self.oriantation-1) % 4
 		if dir == 'back': self.oriantation = (self.oriantation+2) % 4
 		if dir == 'right': self.oriantation = (self.oriantation+1) % 4
+	def face_towards(self, towards):
+		if abs(towards - self.oriantation) == 2:
+			self.turn('back')
+		if (towards - self.oriantation) % 4 > (towards + self.oriantation) % 4:
+			while self.oriantation != towards:
+				self.turn('left')
+		else:
+			while self.oriantation != towards:
+				self.turn('right')
+		return
+	def relative_direction(self, from_pos, to_pos):
+		row_diff = from_pos[0] - to_pos[0]
+		col_diff = from_pos[1] - to_pos[1]
+		if row_diff != 0:
+			return Oriantation.UP if row_diff > 0 else Oriantation.DOWN
+		return Oriantation.LEFT if col_diff > 0 else Oriantation.RIGHT
 	def is_valid_move(self, r, c):
 		return (r >= 0 and r < self.grid.rows) and (c >= 0 and c < self.grid.cols)
 	def main(self):
 		moves = {'W' : "forward", 'A' : 'left', 'S' : 'back', 'D' : 'right'}
 		keyboard = Keyboard()
 		keyboard.enable(TIME_STEP)
+		self.robot.step(TIME_STEP)
+		self.backtrack(self.position)
+
 		while self.robot.step(TIME_STEP) != -1:
 
 			key = keyboard.get_key()
@@ -184,7 +208,24 @@ class Explorer:
 					self.turn(moves[key])
 				self.explore_current_cell()
 				self.grid.display_grid()
-	def backtrack(self, pos):
-		
 
+
+	def backtrack(self, pos):
+		self.explore_current_cell()
+		current_cell = self.grid.get_cell(*pos)
+		current_cell.visited = True
+		valid_directions = [i for i in range(4) if not current_cell.walls[i]]
+		for dir in valid_directions:
+			new_pos = self.calc_new_pos(pos, dir)
+			#valid if new_pos is None
+			if self.is_valid_move(*new_pos) and self.grid.get_cell(*new_pos) is None:
+				self.face_towards(dir)
+				self.move_forward()
+				self.backtrack(new_pos)
+
+				#face toward pos from new_pos
+				back_dir = self.relative_direction(new_pos, pos)
+				self.face_towards(back_dir)
+				self.move_forward()
+		return
 
