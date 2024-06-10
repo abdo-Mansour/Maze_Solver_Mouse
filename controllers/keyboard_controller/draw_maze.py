@@ -97,7 +97,6 @@ class MazeView:
 
     def update_maze_run(self,previous_cell,visited_cell,maze_map):
         fixed_pos = (6-visited_cell[0],visited_cell[1])
-        print("inside: ",type(previous_cell),type(previous_cell[0]))
         fixed_pos_p = (6-previous_cell[0],previous_cell[1])
         self.draw_path(fixed_pos_p,fixed_pos)
         update()

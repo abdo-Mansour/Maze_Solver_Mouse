@@ -274,10 +274,11 @@ class Explorer:
 
 		self.grid.clear_visited()
 		self.find_all_paths(START_POSITION, [])
-		print(self.all_paths)
+		for path in self.all_paths:
+			print("Path: ", path[0]," Cost: ",path[1])
 		self.traverse_path()
 
-		# self.maze_visualizer.done()
+		self.maze_visualizer.done()
 		
 		# while self.robot.step(TIME_STEP) != -1:
 
@@ -297,7 +298,6 @@ class Explorer:
 		self.explore_current_cell()
 		detected_walls = self.devices.detect_side_walls()
 		if detected_walls[3]:
-			print("front wall detected")
 			move_front_correct(self.robot, self.devices)
 		current_cell = self.grid.get_cell(*pos)
 
@@ -322,17 +322,19 @@ class Explorer:
 		return
 
 	def traverse_path(self):
-		for path in self.all_paths:
-			for i in range(len(path[0])):
-				previos_pos = self.position
-				self.face_towards(self.relative_direction(self.position, path[0][i]))
-				self.move_forward()
-				self.position = path[0][i]
-				###### Using the Visualizer ######
-				
-				self.maze_visualizer.update_maze_run(previos_pos, self.position, self.grid)
-				##################################
+		self.move_forward()
+		move_front_correct(self.robot,self.devices)
+		path = sorted(self.all_paths, key = lambda x: x[1])
+		path = path[0]
+		for i in range(1,len(path[0])):
+			previos_pos = self.position
+			self.face_towards(self.relative_direction(self.position, path[0][i]))
+			self.move_forward()
+			self.position = path[0][i]
+			###### Using the Visualizer ######
+			if(previos_pos[1] == -1): 
+				previos_pos = (0,0)
+			self.maze_visualizer.update_maze_run(previos_pos, self.position, self.grid)
+			##################################
 
-			
-			self.maze_visualizer.done()
-			break
+				
