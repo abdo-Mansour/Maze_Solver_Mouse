@@ -8,8 +8,8 @@ EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/project
 WorldInfo {
 }
 Viewpoint {
-  orientation 0.3351244783092294 -0.2654077097805504 -0.9040189885323261 4.3842988340171365
-  position 0.12966622146192125 -0.06368024490351931 0.2660097412393282
+  orientation -0.5773502691896257 0.5773502691896257 0.5773502691896257 2.0943245915045035
+  position 0.0003245325015910155 2.2876958113161172e-05 3.5641759682045193
 }
 TexturedBackground {
 }
@@ -36,10 +36,10 @@ RectangleArena {
   }
 }
 E-puck {
-  translation 0.06 0.19 0
+  translation -0.44 0.69 0
 }
 Solid {
-  translation 0.062 0.125 0.05
+  translation -1.228 0.125 0.05
   children [
     DEF wall_shape Shape {
       appearance PBRAppearance {
@@ -47,11 +47,462 @@ Solid {
         metalness 0
       }
       geometry Box {
-        size 0.1247 0.004 0.1
+        size 0.1247 0.002 0.1
       }
     }
   ]
   name "Wall 1 Unit"
+  boundingObject USE wall_shape
+}
+Solid {
+  translation 0.125 0.439 0.05
+  rotation 0 0 1 -1.5707953071795862
+  children [
+    DEF wall_shape Shape {
+      appearance PBRAppearance {
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.1247 0.002 0.1
+      }
+    }
+  ]
+  name "Wall 1 Unit(1)"
+  boundingObject USE wall_shape
+}
+Solid {
+  translation -0.001 0.439 0.05
+  rotation 0 0 1 -1.5707953071795862
+  children [
+    DEF wall_shape Shape {
+      appearance PBRAppearance {
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.1247 0.002 0.1
+      }
+    }
+  ]
+  name "Wall 1 Unit(4)"
+  boundingObject USE wall_shape
+}
+Solid {
+  translation -0.00099975 0.189 0.05
+  rotation 0 0 1 -1.5707953071795862
+  children [
+    DEF wall_shape Shape {
+      appearance PBRAppearance {
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.1247 0.002 0.1
+      }
+    }
+  ]
+  name "Wall 1 Unit(8)"
+  boundingObject USE wall_shape
+}
+Solid {
+  translation -0.0009995 -0.061 0.05
+  rotation 0 0 1 -1.5707953071795862
+  children [
+    DEF wall_shape Shape {
+      appearance PBRAppearance {
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.1247 0.002 0.1
+      }
+    }
+  ]
+  name "Wall 1 Unit(12)"
+  boundingObject USE wall_shape
+}
+Solid {
+  translation 0.249 0.063 0.05
+  rotation 0 0 1 -1.5707953071795862
+  children [
+    DEF wall_shape Shape {
+      appearance PBRAppearance {
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.1247 0.002 0.1
+      }
+    }
+  ]
+  name "Wall 1 Unit(13)"
+  boundingObject USE wall_shape
+}
+Solid {
+  translation -0.251 0.189 0.05
+  rotation 0 0 1 -1.5707953071795862
+  children [
+    DEF wall_shape Shape {
+      appearance PBRAppearance {
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.1247 0.002 0.1
+      }
+    }
+  ]
+  name "Wall 1 Unit(7)"
+  boundingObject USE wall_shape
+}
+Solid {
+  translation -0.251 -0.061 0.05
+  rotation 0 0 1 -1.5707953071795862
+  children [
+    DEF wall_shape Shape {
+      appearance PBRAppearance {
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.1247 0.002 0.1
+      }
+    }
+  ]
+  name "Wall 1 Unit(11)"
+  boundingObject USE wall_shape
+}
+Solid {
+  translation -0.188 0.5 0.0500013
+  rotation 0 1 0 4.6928012867022945e-06
+  children [
+    DEF wall_shape Shape {
+      appearance PBRAppearance {
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.1247 0.002 0.1
+      }
+    }
+  ]
+  name "Wall 1 Unit(2)"
+  boundingObject USE wall_shape
+}
+Solid {
+  translation 0.187 0.5 0.050001
+  rotation 0 1 0 4.6928012867022945e-06
+  children [
+    DEF wall_shape Shape {
+      appearance PBRAppearance {
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.1247 0.002 0.1
+      }
+    }
+  ]
+  name "Wall 1 Unit(9)"
+  boundingObject USE wall_shape
+}
+Solid {
+  translation 0.187 -0.124 0.050001
+  rotation 0 1 0 4.6928012867022945e-06
+  children [
+    DEF wall_shape Shape {
+      appearance PBRAppearance {
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.1247 0.002 0.1
+      }
+    }
+  ]
+  name "Wall 1 Unit(14)"
+  boundingObject USE wall_shape
+}
+Solid {
+  translation -0.188 0.375 0.0500013
+  rotation 0 1 0 4.6928012867022945e-06
+  children [
+    DEF wall_shape Shape {
+      appearance PBRAppearance {
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.1247 0.002 0.1
+      }
+    }
+  ]
+  name "Wall 1 Unit(5)"
+  boundingObject USE wall_shape
+}
+Solid {
+  translation -0.188 0.125 0.0500013
+  rotation 0 1 0 4.6928012867022945e-06
+  children [
+    DEF wall_shape Shape {
+      appearance PBRAppearance {
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.1247 0.002 0.1
+      }
+    }
+  ]
+  name "Wall 1 Unit(6)"
+  boundingObject USE wall_shape
+}
+Solid {
+  translation -0.31 0.001 0.0500013
+  rotation 0 1 0 4.6928012867022945e-06
+  children [
+    DEF wall_shape Shape {
+      appearance PBRAppearance {
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.1247 0.002 0.1
+      }
+    }
+  ]
+  name "Wall 1 Unit(10)"
+  boundingObject USE wall_shape
+}
+Solid {
+  translation 0.062 0.376 0.05
+  rotation 0 1 0 4.6928012867022945e-06
+  children [
+    DEF wall_shape Shape {
+      appearance PBRAppearance {
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.1247 0.002 0.1
+      }
+    }
+  ]
+  name "Wall 1 Unit(3)"
+  boundingObject USE wall_shape
+}
+Solid {
+  translation -1.398 -0.365 0.05
+  children [
+    DEF wall_shape Shape {
+      appearance PBRAppearance {
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.7482 0.002 0.1
+      }
+    }
+  ]
+  name "Wall 6 Units"
+  boundingObject USE wall_shape
+}
+Solid {
+  translation 0.372 0.251 0.05
+  rotation 0 0 1 -1.5707953071795862
+  children [
+    DEF wall_shape Shape {
+      appearance PBRAppearance {
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.7482 0.002 0.1
+      }
+    }
+  ]
+  name "Wall 6 Units(1)"
+  boundingObject USE wall_shape
+}
+Solid {
+  translation -0.375 0.123 0.05
+  rotation 0 0 1 -1.5707953071795862
+  children [
+    DEF wall_shape Shape {
+      appearance PBRAppearance {
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.7482 0.002 0.1
+      }
+    }
+  ]
+  name "Wall 6 Units(2)"
+  boundingObject USE wall_shape
+}
+Solid {
+  translation -1.248 -0.125 0.05
+  children [
+    DEF wall_shape Shape {
+      appearance PBRAppearance {
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.3741 0.002 0.1
+      }
+    }
+  ]
+  name "Wall 3 Units"
+  boundingObject USE wall_shape
+}
+Solid {
+  translation 0.251 0.435 0.05
+  rotation 0 0 1 -1.5707953071795862
+  children [
+    DEF wall_shape Shape {
+      appearance PBRAppearance {
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.3741 0.002 0.1
+      }
+    }
+  ]
+  name "Wall 3 Units(1)"
+  boundingObject USE wall_shape
+}
+Solid {
+  translation -1.378 -0.245 0.05
+  children [
+    DEF wall_shape Shape {
+      appearance PBRAppearance {
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.6235 0.002 0.1
+      }
+    }
+  ]
+  name "Wall 5 Units"
+  boundingObject USE wall_shape
+}
+Solid {
+  translation -0.126 0.189 0.05
+  rotation 0 0 1 -1.5707953071795862
+  children [
+    DEF wall_shape Shape {
+      appearance PBRAppearance {
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.6235 0.002 0.1
+      }
+    }
+  ]
+  name "Wall 5 Units(3)"
+  boundingObject USE wall_shape
+}
+Solid {
+  translation -0.062 -0.25 0.05
+  children [
+    DEF wall_shape Shape {
+      appearance PBRAppearance {
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.6235 0.002 0.1
+      }
+    }
+  ]
+  name "Wall 5 Units(2)"
+  boundingObject USE wall_shape
+}
+Solid {
+  translation 0.062 0.625 0.05
+  children [
+    DEF wall_shape Shape {
+      appearance PBRAppearance {
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.6235 0.002 0.1
+      }
+    }
+  ]
+  name "Wall 5 Units(1)"
+  boundingObject USE wall_shape
+}
+Solid {
+  translation -1.188 -0.005 0.05
+  children [
+    DEF wall_shape Shape {
+      appearance PBRAppearance {
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.2494 0.002 0.1
+      }
+    }
+  ]
+  name "Wall 2 Units"
+  boundingObject USE wall_shape
+}
+Solid {
+  translation 0.001 0.251 0.05
+  children [
+    DEF wall_shape Shape {
+      appearance PBRAppearance {
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.2494 0.002 0.1
+      }
+    }
+  ]
+  name "Wall 2 Units(1)"
+  boundingObject USE wall_shape
+}
+Solid {
+  translation 0.124 0.001 0.05
+  children [
+    DEF wall_shape Shape {
+      appearance PBRAppearance {
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.2494 0.002 0.1
+      }
+    }
+  ]
+  name "Wall 2 Units(2)"
+  boundingObject USE wall_shape
+}
+Solid {
+  translation 0.124 0.001 0.05
+  rotation 0 0 1 -1.5707953071795862
+  children [
+    DEF wall_shape Shape {
+      appearance PBRAppearance {
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.2494 0.002 0.1
+      }
+    }
+  ]
+  name "Wall 2 Units(3)"
   boundingObject USE wall_shape
 }
 TexturedBackgroundLight {
