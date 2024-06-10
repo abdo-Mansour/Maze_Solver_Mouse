@@ -1,7 +1,7 @@
 from constants import *
 from controller import Robot, Keyboard
 from draw_maze import MazeView
-from movement import move_1_tile, turn, Oriantation
+from movement import move_1_tile, turn, Oriantation, move_front_correct
 
 
 class Devices:
@@ -13,6 +13,7 @@ class Devices:
 		self.left_motor.setVelocity(SPEED)
 		self.right_motor.setVelocity(SPEED)
 		self.tof = robot.getDevice("tof")
+		self.tof.enable(TIME_STEP)
 		self.ps_left = robot.getDevice("left wheel sensor")
 		self.ps_left.enable(TIME_STEP)
 		self.ps_right = robot.getDevice("right wheel sensor")
@@ -155,6 +156,7 @@ class Explorer:
 					detected_walls[(2 - self.oriantation - 1) % 4],
 					detected_walls[(3 - self.oriantation - 1) % 4]
 			)
+
 		cell.visited = True
 		self.grid.add_cell(*self.position, cell)
 		### Update maze visualizer ###############
@@ -228,6 +230,10 @@ class Explorer:
 
 	def backtrack(self, pos):
 		self.explore_current_cell()
+		detected_walls = self.devices.detect_side_walls()
+		if detected_walls[3]:
+			print("front wall detected")
+			move_front_correct(self.robot, self.devices)
 		current_cell = self.grid.get_cell(*pos)
 		current_cell.visited = True
 		valid_directions = [i for i in range(4) if not current_cell.walls[i]]
