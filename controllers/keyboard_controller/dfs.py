@@ -217,7 +217,7 @@ class Explorer:
 		if curr_pos == GOAL_POSITION:
 			print("وصلت")
 			current_path.append(curr_pos)
-			self.all_paths.append(current_path.copy())
+			self.all_paths.append((current_path.copy(), len(current_path)))
 			return
 
 		curr_cell = self.grid.get_cell(*curr_pos)
@@ -298,8 +298,6 @@ class Explorer:
 			print("front wall detected")
 			move_front_correct(self.robot, self.devices)
 		current_cell = self.grid.get_cell(*pos)
-		if pos == GOAL_POSITION:
-			self.all_paths.append((copy.deepcopy(curr_path), len(curr_path)))
 
 		current_cell.visited = True
 		valid_directions = [i for i in range(4) if not current_cell.walls[i]]
