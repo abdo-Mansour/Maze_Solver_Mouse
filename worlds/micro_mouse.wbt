@@ -3,17 +3,56 @@
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/floors/protos/RectangleArena.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/robots/gctronic/e-puck/protos/E-puck.proto"
 
 WorldInfo {
 }
 Viewpoint {
-  orientation -0.5773502691896257 0.5773502691896257 0.5773502691896257 2.0944
-  position 0 0 10
+  orientation 0.3351244783092294 -0.2654077097805504 -0.9040189885323261 4.3842988340171365
+  position 0.12966622146192125 -0.06368024490351931 0.2660097412393282
 }
 TexturedBackground {
 }
 RectangleArena {
-  floorSize 3 3
+  floorSize 2 2
+  floorTileSize 0.25 0.25
+  wallAppearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.jpg"
+      ]
+    }
+    roughnessMap ImageTexture {
+      url [
+        "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
+      ]
+    }
+    metalness 0
+    normalMap ImageTexture {
+      url [
+        "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
+      ]
+    }
+  }
+}
+E-puck {
+  translation 0.06 0.19 0
+}
+Solid {
+  translation 0.062 0.125 0.05
+  children [
+    DEF wall_shape Shape {
+      appearance PBRAppearance {
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.1247 0.004 0.1
+      }
+    }
+  ]
+  name "Wall 1 Unit"
+  boundingObject USE wall_shape
 }
 TexturedBackgroundLight {
 }
