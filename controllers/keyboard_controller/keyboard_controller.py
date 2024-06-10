@@ -15,6 +15,7 @@ TIME_STEP = int(robot.getBasicTimeStep())
 
 class Devices:
     def __init__(self, robot : Robot) -> None:
+        self.robot = robot
         self.left_motor = robot.getDevice('left wheel motor')
         self.right_motor = robot.getDevice('right wheel motor')
 
@@ -35,6 +36,15 @@ class Devices:
             self.ps[i] = robot.getDevice(ps_names[i])
             self.ps[i].enable(TIME_STEP)
         
+    def detect_side_walls(self):
+        right_sensor += self.ps[2].getValue()
+        left_sensor += self.ps[5].getValue()
+        left_wall = left_sensor > 80.0
+        right_wall = right_sensor > 80.0
+
+        front_wall = self.ps[0].getValue() > 80.0 or self.ps[7].getValue() > 80.0
+        back_wall = self.ps[3].getValue() > 80.0 or self.ps[4].getValue() > 80.0
+        return front_wall, right_wall, back_wall, left_wall
 devices = Devices(robot)
 moves = {'W' : "forward", 'A' : 'left', 'S' : 'back', 'D' : 'right'}
 # Main loop:

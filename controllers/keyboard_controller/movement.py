@@ -3,10 +3,11 @@ from constants import *
 from math import pi
 
 class Oriantation:
-    UP = 0
-    RIGHT = 1
-    DOWN = 2
-    LEFT = 3
+    RIGHT = 0
+    DOWN = 1
+    LEFT = 2
+    UP = 3
+
 def move_1_tile(robot, devices):
     
     revolutions = TILE_LENGTH / WHEEL #rev in radians
