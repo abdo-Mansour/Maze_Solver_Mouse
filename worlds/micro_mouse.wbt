@@ -3,13 +3,13 @@
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/floors/protos/RectangleArena.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/robots/gctronic/e-puck/protos/E-puck.proto"
+EXTERNPROTO "../protos/E-puck.proto"
 
 WorldInfo {
 }
 Viewpoint {
   orientation -0.5773502691896257 0.5773502691896257 0.5773502691896257 2.0943245915045035
-  position 0.00039762792956816355 9.596941047413373e-05 4.333544905048392
+  position 0.11761500465032511 0.0972087368402947 2.6763589633093057
 }
 TexturedBackground {
 }
@@ -36,7 +36,18 @@ RectangleArena {
   }
 }
 E-puck {
-  translation -0.31 0.56 0
+  hidden position_0_0 489.90423624375626
+  hidden position_0_1 534.4671162437562
+  hidden linearVelocity_0 2.7446694000988355e-16 8.192319465588672e-15 -1.8947806286936006e-16
+  hidden angularVelocity_0 -1.4978129727313463e-13 3.633009386173181e-15 -1.1096649376398921e-15
+  hidden rotation_1 0 -1 0 0.1842177162514872
+  hidden linearVelocity_1 -7.709730264054683e-17 7.0756466945879136e-15 -2.6641369648480785e-16
+  hidden angularVelocity_1 -9.80786234818689e-14 -3.570324910607619e-15 -1.066235808764056e-15
+  hidden rotation_2 0 -1 0 5.886820173688228
+  hidden linearVelocity_2 3.1918768018899247e-16 1.0125069826077102e-14 4.441228410005828e-16
+  hidden angularVelocity_2 -4.260525462153866e-13 2.0410400381928032e-14 -1.1529422741640772e-15
+  translation -0.30837896555062916 0.5734667482633191 -6.39619957878302e-05
+  rotation 2.999581997573961e-11 1.163886745637051e-09 0.9999999999999999 3.089883080563134
   controller "keyboard_controller"
 }
 Solid {
@@ -116,7 +127,7 @@ Solid {
         metalness 0
       }
       geometry Box {
-        size 0.1247 0.002 0.1
+        size 0.1247 0.005 0.1
       }
     }
   ]
@@ -133,7 +144,7 @@ Solid {
         metalness 0
       }
       geometry Box {
-        size 0.1247 0.002 0.1
+        size 0.1247 0.005 0.1
       }
     }
   ]
@@ -286,7 +297,7 @@ Solid {
         metalness 0
       }
       geometry Box {
-        size 0.1247 0.002 0.1
+        size 0.1247 0.009 0.1
       }
     }
   ]
@@ -402,7 +413,7 @@ Solid {
         metalness 0
       }
       geometry Box {
-        size 0.6235 0.002 0.1
+        size 0.6235 0.005 0.1
       }
     }
   ]
@@ -482,7 +493,7 @@ Solid {
         metalness 0
       }
       geometry Box {
-        size 0.2494 0.002 0.1
+        size 0.2494 0.005 0.1
       }
     }
   ]
@@ -490,7 +501,7 @@ Solid {
   boundingObject USE wall_shape
 }
 Solid {
-  translation 0.124 0.001 0.05
+  translation 0.124 0.002 0.05
   rotation 0 0 1 -1.5707953071795862
   children [
     DEF wall_shape Shape {
@@ -499,7 +510,7 @@ Solid {
         metalness 0
       }
       geometry Box {
-        size 0.2494 0.002 0.1
+        size 0.2494 0.006 0.1
       }
     }
   ]
