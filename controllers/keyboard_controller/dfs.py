@@ -1,6 +1,6 @@
 from constants import *
 from controller import Robot, Keyboard
-
+from draw_maze import MazeView
 from movement import move_1_tile, turn, Oriantation
 
 
@@ -144,6 +144,10 @@ class Explorer:
 		self.devices = Devices(robot)
 		self.position = START_POSITION
 		self.oriantation = START_ORIANTATION
+
+		self.maze_visualizer = MazeView()
+		self.maze_visualizer.init_maze(self.grid)
+
 	def explore_current_cell(self):
 		detected_walls: tuple = self.devices.detect_side_walls()
 		cell = Cell(detected_walls[(0 - self.oriantation - 1) % 4],
@@ -151,7 +155,12 @@ class Explorer:
 					detected_walls[(2 - self.oriantation - 1) % 4],
 					detected_walls[(3 - self.oriantation - 1) % 4]
 			)
+		cell.visited = True
 		self.grid.add_cell(*self.position, cell)
+		### Update maze visualizer ###############
+		self.maze_visualizer.update_maze_explored(self.position,self.grid)
+		###########################################
+
 	def move_forward(self):
 		move_1_tile(self.robot, self.devices)
 		self.position = self.calc_new_pos(self.position, self.oriantation)
@@ -166,11 +175,13 @@ class Explorer:
 		if oriantation == 3:
 			pos = (pos[0] - 1, pos[1])
 		return pos
+	
 	def turn(self, dir):
 		turn(self.robot, dir, self.devices)
 		if dir == 'left': self.oriantation = (self.oriantation-1) % 4
 		if dir == 'back': self.oriantation = (self.oriantation+2) % 4
 		if dir == 'right': self.oriantation = (self.oriantation+1) % 4
+
 	def face_towards(self, towards):
 		if abs(towards - self.oriantation) == 2:
 			self.turn('back')
@@ -181,18 +192,23 @@ class Explorer:
 			while self.oriantation != towards:
 				self.turn('right')
 		return
+	
 	def relative_direction(self, from_pos, to_pos):
 		row_diff = from_pos[0] - to_pos[0]
 		col_diff = from_pos[1] - to_pos[1]
 		if row_diff != 0:
 			return Oriantation.UP if row_diff > 0 else Oriantation.DOWN
 		return Oriantation.LEFT if col_diff > 0 else Oriantation.RIGHT
+	
 	def is_valid_move(self, r, c):
 		return (r >= 0 and r < self.grid.rows) and (c >= 0 and c < self.grid.cols)
+	
 	def main(self):
 		moves = {'W' : "forward", 'A' : 'left', 'S' : 'back', 'D' : 'right'}
 		keyboard = Keyboard()
 		keyboard.enable(TIME_STEP)
+
+
 		self.robot.step(TIME_STEP)
 		self.backtrack(self.position)
 
@@ -208,7 +224,7 @@ class Explorer:
 					self.turn(moves[key])
 				self.explore_current_cell()
 				self.grid.display_grid()
-
+		
 
 	def backtrack(self, pos):
 		self.explore_current_cell()
