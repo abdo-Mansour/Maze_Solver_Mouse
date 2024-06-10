@@ -37,31 +37,18 @@ class Devices:
             self.ps[i].enable(TIME_STEP)
         
     def detect_side_walls(self):
-        right_sensor += self.ps[2].getValue()
-        left_sensor += self.ps[5].getValue()
+        right_sensor = self.ps[2].getValue()
+        left_sensor = self.ps[5].getValue()
         left_wall = left_sensor > 80.0
         right_wall = right_sensor > 80.0
 
         front_wall = self.ps[0].getValue() > 80.0 or self.ps[7].getValue() > 80.0
         back_wall = self.ps[3].getValue() > 80.0 or self.ps[4].getValue() > 80.0
         return front_wall, right_wall, back_wall, left_wall
-devices = Devices(robot)
-moves = {'W' : "forward", 'A' : 'left', 'S' : 'back', 'D' : 'right'}
-# Main loop:
+
 def main():
-    keyboard = Keyboard()
-    keyboard.enable(TIME_STEP)
-    while robot.step(TIME_STEP) != -1:
-
-        key = keyboard.get_key()
-        if key in moves:
-            print("hello")
-
-            if(key == 'W'):
-                print(key)
-                movement.move_1_tile(robot, devices)
-            elif(key == 'A' or key == 'S' or key == 'D'):
-                print(key)
-                movement.turn(robot, moves[key], devices)
-            
+    from dfs import Explorer
+    print('hello')
+    dfs = Explorer(robot)
+    dfs.main()
 main()

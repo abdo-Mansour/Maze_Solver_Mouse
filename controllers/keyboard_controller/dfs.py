@@ -183,6 +183,7 @@ class Explorer:
 					self.turn(moves[key])
 				self.explore_current_cell()
 				self.grid.display_grid()
-
+	def backtrack(self, pos):
+		
 
 
