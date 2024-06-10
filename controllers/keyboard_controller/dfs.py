@@ -51,6 +51,7 @@ class Cell:
 		self.right_wall = right_wall
 		self.down_wall = down_wall
 		self.left_wall = left_wall
+		self.visited = False
 
 class Grid:
 	def __init__(self, rows, cols) -> None:
