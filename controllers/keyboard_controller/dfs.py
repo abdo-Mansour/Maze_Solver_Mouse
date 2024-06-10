@@ -1,6 +1,9 @@
 from constants import *
 from controller import Robot
+from keyboard_controller import Devices
 from movement import move_1_tile, turn, Oriantation
+
+
 
 
 class Cell:
@@ -17,8 +20,6 @@ class Cell:
 		self.right_wall = right_wall
 		self.down_wall = down_wall
 		self.left_wall = left_wall
-
-
 
 class Grid:
 	def __init__(self, rows, cols) -> None:
@@ -67,9 +68,29 @@ class Grid:
 			print(row)
 
 
+class DFS:
+	def __init__(self, grid: Grid, robot: Robot, devices: Devices) -> None:
+		self.grid = grid
+		self.robot = robot
+		self.devices = devices
+		self.position = START_POSITION
+		self.oriantation = START_ORIANTATION
+	def explore_current_cell(self):
+		detected_walls: tuple = self.devices.detect_side_walls()
+		cell = Cell(detected_walls[0 - self.oriantation],
+			  detected_walls[1 - self.oriantation],
+			  detected_walls[2 - self.oriantation],
+			  detected_walls[3 - self.oriantation]
+			)
+		self.grid.add_cell(*self.position, cell)
+	def is_valid_move(self, r, c):
+		return (r >= 0 and r < self.grid.rows) and (c >= 0 and c < self.grid.cols)
+	def dfs(self, r, c):
+		pass
 def dfs_main(robot: Robot, devices):
-	current_position = (0,0) # start position of robot
-	current_oriantatin = Oriantation.RIGHT
+	global current_oriantation, current_position
+	grid = Grid(ROWS, COLUMNS)
+
 
 
 

@@ -1,5 +1,8 @@
 
+START_POSITION = (0,0)
+START_ORIANTATION = 0 # Oriantation.RIGHT
 
+GOAL_POSITION = (7 -1, 6 - 1) # rows, cols
 TIME_STEP = 64
 TILE_LENGTH = 0.12 #tile length
 AXLE = 0.0568 #axle length 0.0568
