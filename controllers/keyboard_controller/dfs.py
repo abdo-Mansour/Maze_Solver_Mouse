@@ -5,37 +5,37 @@ from movement import move_1_tile, turn, Oriantation
 
 
 class Devices:
-    def __init__(self, robot : Robot) -> None:
-        self.robot = robot
-        self.left_motor = robot.getDevice('left wheel motor')
-        self.right_motor = robot.getDevice('right wheel motor')
+	def __init__(self, robot : Robot) -> None:
+		self.robot = robot
+		self.left_motor = robot.getDevice('left wheel motor')
+		self.right_motor = robot.getDevice('right wheel motor')
 
-        self.left_motor.setVelocity(SPEED)
-        self.right_motor.setVelocity(SPEED)
+		self.left_motor.setVelocity(SPEED)
+		self.right_motor.setVelocity(SPEED)
+		self.tof = robot.getDevice("tof")
+		self.ps_left = robot.getDevice("left wheel sensor")
+		self.ps_left.enable(TIME_STEP)
+		self.ps_right = robot.getDevice("right wheel sensor")
+		self.ps_right.enable(TIME_STEP)
 
-        self.ps_left = robot.getDevice("left wheel sensor")
-        self.ps_left.enable(TIME_STEP)
-        self.ps_right = robot.getDevice("right wheel sensor")
-        self.ps_right.enable(TIME_STEP)
+		self.ps = [''] * 8
+		ps_names = (
+			"ps0", "ps1", "ps2", "ps3",
+				"ps4", "ps5", "ps6", "ps7"
+		)
+		for i in range(len(ps_names)):
+			self.ps[i] = robot.getDevice(ps_names[i])
+			self.ps[i].enable(TIME_STEP)
+		
+	def detect_side_walls(self):
+		right_sensor = self.ps[2].getValue()
+		left_sensor = self.ps[5].getValue()
+		left_wall = left_sensor > 80.0
+		right_wall = right_sensor > 80.0
 
-        self.ps = [''] * 8
-        ps_names = (
-            "ps0", "ps1", "ps2", "ps3",
-                "ps4", "ps5", "ps6", "ps7"
-        )
-        for i in range(len(ps_names)):
-            self.ps[i] = robot.getDevice(ps_names[i])
-            self.ps[i].enable(TIME_STEP)
-        
-    def detect_side_walls(self):
-        right_sensor = self.ps[2].getValue()
-        left_sensor = self.ps[5].getValue()
-        left_wall = left_sensor > 80.0
-        right_wall = right_sensor > 80.0
-
-        front_wall = self.ps[0].getValue() > 80.0 or self.ps[7].getValue() > 80.0
-        back_wall = self.ps[3].getValue() > 80.0 or self.ps[4].getValue() > 80.0
-        return right_wall, back_wall, left_wall, front_wall
+		front_wall = self.ps[0].getValue() > 80.0 or self.ps[7].getValue() > 80.0
+		back_wall = self.ps[3].getValue() > 80.0 or self.ps[4].getValue() > 80.0
+		return right_wall, back_wall, left_wall, front_wall
 
 class Cell:
 	def __init__(self, right_wall, down_wall, left_wall, up_wall,) -> None:
@@ -185,7 +185,7 @@ class Explorer:
 	def face_towards(self, towards):
 		if abs(towards - self.oriantation) == 2:
 			self.turn('back')
-		if (towards - self.oriantation) % 4 > (towards + self.oriantation) % 4:
+		if abs(towards - self.oriantation)  < 4 - abs(towards - self.oriantation):
 			while self.oriantation != towards:
 				self.turn('left')
 		else:

@@ -75,6 +75,7 @@ def PID_correction(robot, devices):
         if left_wall and right_wall:
         
             error = left_angle_sensor - right_angle_sensor
+            
             error_integral += error
             error_derivative = (previous_error - error)
             previous_error = error
@@ -84,10 +85,12 @@ def PID_correction(robot, devices):
             elif MotorSpeed < -0.2:
                 MotorSpeed = -0.2
 
+
             devices.left_motor.setVelocity(SPEED + MotorSpeed)
             devices.right_motor.setVelocity(SPEED - MotorSpeed)
         elif left_wall:
             error = left_angle_sensor - Middle
+
                 
             error_integral += error
             error_derivative = (previous_error - error)
@@ -102,7 +105,7 @@ def PID_correction(robot, devices):
             devices.right_motor.setVelocity(SPEED - MotorSpeed)
         elif right_wall:
             error = right_angle_sensor - Middle
-            
+
             error_integral += error
             error_derivative = (previous_error - error)
             previous_error = error
@@ -111,6 +114,7 @@ def PID_correction(robot, devices):
                 MotorSpeed = 0.06
             elif MotorSpeed < -0.06:
                 MotorSpeed = -0.06
+
 
             devices.left_motor.setVelocity(SPEED - MotorSpeed)
             devices.right_motor.setVelocity(SPEED + MotorSpeed)
@@ -131,23 +135,24 @@ def turn(robot, move_direction, devices):
     devices.left_motor.setVelocity(SPEED * 0.33)
     devices.right_motor.setVelocity(SPEED * 0.33)
 
-    if(move_direction == 'right'):
+    if move_direction == 'right':
         left_wheel_revolutions += revolutions
         right_wheel_revolutions -= revolutions
         devices.left_motor.setPosition(left_wheel_revolutions)
         devices.right_motor.setPosition(right_wheel_revolutions)
-    elif(move_direction == 'left'):
+        
+    elif move_direction == 'left':
         left_wheel_revolutions -= revolutions
         right_wheel_revolutions += revolutions
         devices.left_motor.setPosition(left_wheel_revolutions)
         devices.right_motor.setPosition(right_wheel_revolutions)
-    elif(move_direction == 'back'):
+
+    elif move_direction =='back':
         revolutions *= 2
         left_wheel_revolutions += revolutions
         right_wheel_revolutions -= revolutions
         devices.left_motor.setPosition(left_wheel_revolutions)
         devices.right_motor.setPosition(right_wheel_revolutions)
-
 
     while True:
         distance_left_now = devices.ps_left.getValue()
@@ -160,3 +165,52 @@ def turn(robot, move_direction, devices):
 
         if (distance_left_now == distance_left_later) and (distance_right_now == distance_right_later):
             break
+
+def move_front_correct(robot, devices):
+
+    devices.left_motor.setPosition(float('inf'))
+    devices.right_motor.setPosition(float('inf'))
+
+    left = devices.ps[7].getValue()
+    right = devices.ps[0].getValue()
+
+    if left < right:
+        while left < right:
+
+            devices.left_motor.setVelocity(SPEED * 0.1)
+            devices.right_motor.setVelocity(SPEED * -0.1)
+            robot.step(TIME_STEP)
+            left = devices.ps[7].getValue()
+            right = devices.ps[0].getValue()
+    elif left > right:
+        while left > right:
+
+            devices.left_motor.setVelocity(SPEED * -0.1)
+            devices.right_motor.setVelocity(SPEED * 0.1)
+            robot.step(TIME_STEP)
+            left = devices.ps[7].getValue()
+            right = devices.ps[0].getValue()
+    front = devices.tof.getValue()
+    desired_distance = 40.0
+
+    if front > desired_distance:
+        while front > desired_distance:
+
+            devices.left_motor.setVelocity(SPEED * 0.1)
+            devices.right_motor.setVelocity(SPEED * 0.1)
+            
+            robot.step(TIME_STEP)
+            
+            front = devices.tof.getValue()
+
+    elif front < desired_distance:
+        while front < desired_distance:
+
+            devices.left_motor.setVelocity(SPEED * -0.1)
+            devices.right_motor.setVelocity(SPEED * -0.1)
+            
+            robot.step(TIME_STEP)
+            
+            front = devices.tof.getValue()
+    devices.left_motor.setVelocity(0)
+    devices.right_motor.setVelocity(0)
