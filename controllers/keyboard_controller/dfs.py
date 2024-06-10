@@ -1,4 +1,5 @@
 from constants import *
+import copy
 from controller import Robot, Keyboard
 from draw_maze import MazeView
 from movement import move_1_tile, turn, Oriantation, move_front_correct
@@ -146,6 +147,8 @@ class Explorer:
 		self.position = START_POSITION
 		self.oriantation = START_ORIANTATION
 
+		self.all_paths = []
+
 		self.maze_visualizer = MazeView()
 		self.maze_visualizer.init_maze(self.grid)
 
@@ -212,29 +215,35 @@ class Explorer:
 
 
 		self.robot.step(TIME_STEP)
-		self.backtrack(self.position)
+		tmp_path = []
+		self.backtrack(self.position, tmp_path)
+		print(self.all_paths)
+		# self.maze_visualizer.done()
 
-		while self.robot.step(TIME_STEP) != -1:
+		# while self.robot.step(TIME_STEP) != -1:
 
-			key = keyboard.get_key()
-			if key in moves:
-				if(key == 'W'):
-					print(key)
-					self.move_forward()
-				elif(key == 'A' or key == 'S' or key == 'D'):
-					print(key)
-					self.turn(moves[key])
-				self.explore_current_cell()
-				self.grid.display_grid()
+		# 	key = keyboard.get_key()
+		# 	if key in moves:
+		# 		if(key == 'W'):
+		# 			print(key)
+		# 			self.move_forward()
+		# 		elif(key == 'A' or key == 'S' or key == 'D'):
+		# 			print(key)
+		# 			self.turn(moves[key])
+		# 		self.explore_current_cell()
+		# 		self.grid.display_grid()
 		
 
-	def backtrack(self, pos):
+	def backtrack(self, pos, curr_path):
 		self.explore_current_cell()
 		detected_walls = self.devices.detect_side_walls()
 		if detected_walls[3]:
 			print("front wall detected")
 			move_front_correct(self.robot, self.devices)
 		current_cell = self.grid.get_cell(*pos)
+		if pos == GOAL_POSITION:
+			self.all_paths.append((copy.deepcopy(curr_path), len(curr_path)))
+
 		current_cell.visited = True
 		valid_directions = [i for i in range(4) if not current_cell.walls[i]]
 		for dir in valid_directions:
@@ -243,7 +252,10 @@ class Explorer:
 			if self.is_valid_move(*new_pos) and self.grid.get_cell(*new_pos) is None:
 				self.face_towards(dir)
 				self.move_forward()
-				self.backtrack(new_pos)
+
+				curr_path.append(new_pos)
+				self.backtrack(new_pos, curr_path)
+				del curr_path[-1]
 
 				#face toward pos from new_pos
 				back_dir = self.relative_direction(new_pos, pos)
