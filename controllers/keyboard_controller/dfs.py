@@ -98,6 +98,11 @@ class Grid:
 			# Raise an error if the position is out of bounds
 			raise IndexError("Cell position out of grid bounds, " + str((row, col)))
 
+	def clear_visited(self):
+		for i in range(self.rows):
+			for j in range(self.cols):
+				self.grid[i][j].visited = False
+
 	def display_grid(self):
 		"""
 		Display the current state of the grid.
@@ -208,6 +213,55 @@ class Explorer:
 	def is_valid_move(self, r, c):
 		return (r >= 0 and r < self.grid.rows) and (c >= 0 and c < self.grid.cols)
 	
+	def find_all_paths(self, curr_pos, current_path):
+		if curr_pos == GOAL_POSITION:
+			print("وصلت")
+			current_path.append(curr_pos)
+			self.all_paths.append(current_path.copy())
+			return
+
+		curr_cell = self.grid.get_cell(*curr_pos)
+		if curr_cell.visited:
+			return
+
+		curr_cell.visited = True
+		current_path.append(curr_pos)
+		if not curr_cell.up_wall:
+			new_pos = (curr_pos[0] - 1, curr_pos[1])
+			if self.is_valid_move(*new_pos):
+				self.find_all_paths(new_pos, current_path)
+
+		if not curr_cell.right_wall:
+			new_pos = (curr_pos[0], curr_pos[1] + 1)
+			if self.is_valid_move(*new_pos):
+				self.find_all_paths(new_pos, current_path)
+
+		if not curr_cell.down_wall:
+			new_pos = (curr_pos[0] + 1, curr_pos[1])
+			if self.is_valid_move(*new_pos):
+				self.find_all_paths(new_pos, current_path)
+
+		if not curr_cell.left_wall:
+			new_pos = (curr_pos[0], curr_pos[1] - 1)
+			if self.is_valid_move(*new_pos):
+				self.find_all_paths(new_pos, current_path)
+		
+		del current_path[-1]
+		# curr_cell.visited = False
+
+
+		# valid_directions = [i for i in range(4) if not curr_cell.walls[i]]
+		# for dir in valid_directions:
+		# 	current_path.append(curr_pos)
+		# 	new_pos = self.calc_new_pos(curr_pos, dir)
+		# 	print(new_pos)
+		# 	self.find_all_paths(new_pos, current_path)
+		# 	del current_path[-1]
+		
+
+		
+
+
 	def main(self):
 		moves = {'W' : "forward", 'A' : 'left', 'S' : 'back', 'D' : 'right'}
 		keyboard = Keyboard()
@@ -217,6 +271,9 @@ class Explorer:
 		self.robot.step(TIME_STEP)
 		tmp_path = []
 		self.backtrack(self.position, tmp_path)
+
+		self.grid.clear_visited()
+		self.find_all_paths(START_POSITION, [])
 		print(self.all_paths)
 		# self.maze_visualizer.done()
 
@@ -253,13 +310,14 @@ class Explorer:
 				self.face_towards(dir)
 				self.move_forward()
 
-				curr_path.append(new_pos)
+				# curr_path.append(new_pos)
 				self.backtrack(new_pos, curr_path)
-				del curr_path[-1]
+				# del curr_path[-1]
 
 				#face toward pos from new_pos
 				back_dir = self.relative_direction(new_pos, pos)
 				self.face_towards(back_dir)
 				self.move_forward()
+				
 		return
 
