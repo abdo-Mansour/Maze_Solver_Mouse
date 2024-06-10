@@ -97,23 +97,25 @@ class MazeView:
 
     def update_maze_run(self,previous_cell,visited_cell,maze_map):
         fixed_pos = (6-visited_cell[0],visited_cell[1])
+        print("inside: ",type(previous_cell),type(previous_cell[0]))
         fixed_pos_p = (6-previous_cell[0],previous_cell[1])
         self.draw_path(fixed_pos_p,fixed_pos)
+        update()
     
     def draw_path(self,previous_cell,visited_cell):
-        
+        # print(previous_cell,visited_cell)
         y_v = (visited_cell[0] + 1) * self.cell_size + self.start_y - self.cell_size//2
         x_v = (visited_cell[1] + 1) * self.cell_size + self.start_x - self.cell_size//2
         y_p = (previous_cell[0] + 1) * self.cell_size + self.start_y - self.cell_size//2
         x_p = (previous_cell[1] + 1) * self.cell_size + self.start_x - self.cell_size//2
-
+        
         self.maze_drawer.showturtle()
+        self.maze_drawer.width(5)
         self.maze_drawer.color('blue')
         self.maze_drawer.up()
         self.maze_drawer.goto(x_p, y_p)
         self.maze_drawer.down()
         self.maze_drawer.goto(x_v, y_v)
-        self.maze_drawer.up()
 
         
 

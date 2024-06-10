@@ -9,7 +9,7 @@ WorldInfo {
 }
 Viewpoint {
   orientation -0.5773502691896257 0.5773502691896257 0.5773502691896257 2.0943245915045035
-  position 0.11761500465032511 0.0972087368402947 2.6763589633093057
+  position 0.0003051560168736854 3.501262186360668e-06 2.9754249527456085
 }
 TexturedBackground {
 }
@@ -36,10 +36,8 @@ RectangleArena {
   }
 }
 E-puck {
-  hidden translation_1 0 0.02599999999999991 0.02
   hidden rotation_1 0 -1 0 0.1842177162514872
-  hidden translation_2 0 -0.026 0.02
-  hidden rotation_2 0 -1 0 5.886820173688228
+  hidden rotation_2 0 -0.9999999999999999 0 5.886820173688228
   translation -0.30837896555062916 0.5734667482633191 -6.39619957878302e-05
   rotation 2.999581997573961e-11 1.163886745637051e-09 0.9999999999999999 0
   controller "keyboard_controller"
@@ -332,7 +330,7 @@ Solid {
   boundingObject USE wall_shape
 }
 Solid {
-  translation -0.375 0.123 0.05
+  translation -0.375 0.183 0.05
   rotation 0 0 1 -1.5707953071795862
   children [
     DEF wall_shape Shape {
@@ -341,7 +339,7 @@ Solid {
         metalness 0
       }
       geometry Box {
-        size 0.7482 0.002 0.1
+        size 0.9 0.008 0.1
       }
     }
   ]
@@ -423,7 +421,7 @@ Solid {
         metalness 0
       }
       geometry Box {
-        size 0.6235 0.002 0.1
+        size 0.6235 0.01 0.1
       }
     }
   ]
@@ -431,7 +429,7 @@ Solid {
   boundingObject USE wall_shape
 }
 Solid {
-  translation 0.062 0.625 0.05
+  translation 0.012 0.625 0.05
   children [
     DEF wall_shape Shape {
       appearance PBRAppearance {
@@ -439,7 +437,7 @@ Solid {
         metalness 0
       }
       geometry Box {
-        size 0.6235 0.002 0.1
+        size 0.8 0.002 0.1
       }
     }
   ]
@@ -471,7 +469,7 @@ Solid {
         metalness 0
       }
       geometry Box {
-        size 0.2494 0.002 0.1
+        size 0.2494 0.009 0.1
       }
     }
   ]

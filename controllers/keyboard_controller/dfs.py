@@ -218,8 +218,10 @@ class Explorer:
 		tmp_path = []
 		self.backtrack(self.position, tmp_path)
 		print(self.all_paths)
-		# self.maze_visualizer.done()
+		self.traverse_path()
 
+		# self.maze_visualizer.done()
+		
 		# while self.robot.step(TIME_STEP) != -1:
 
 		# 	key = keyboard.get_key()
@@ -263,3 +265,18 @@ class Explorer:
 				self.move_forward()
 		return
 
+	def traverse_path(self):
+		for path in self.all_paths:
+			for i in range(len(path[0])):
+				previos_pos = self.position
+				self.face_towards(self.relative_direction(self.position, path[0][i]))
+				self.move_forward()
+				self.position = path[0][i]
+				###### Using the Visualizer ######
+				
+				self.maze_visualizer.update_maze_run(previos_pos, self.position, self.grid)
+				##################################
+
+			
+			self.maze_visualizer.done()
+			break
